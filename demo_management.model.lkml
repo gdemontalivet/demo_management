@@ -8,4 +8,38 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 # # and define the joins that connect them together.
 
 
-explore: demo_bundles {}
+explore: core_demos {
+  view_label: "Demonstration Information"
+  description: "An explore envionrment to find details on available demo content"
+  join: demo_dataset {
+    relationship: one_to_many
+    sql: left join unnest(${core_demos.bigquery_dataset_name}) as demo_dataset;;
+  }
+  join: demo_use_cases {
+    view_label: "Use Case Information"
+    relationship: one_to_many
+    sql_on: ${demo_use_cases.demo_name} = ${core_demos.demo_name} ;;
+  }
+  join: demo_dashboards {
+    view_label: "Dashboard Details"
+    relationship: one_to_many
+    sql_on: ${demo_use_cases.demo_name} = ${demo_dashboards.demo_name} and
+    ${demo_use_cases.use_case_name} = ${demo_dashboards.use_case_name} ;;
+  }
+}
+
+explore: current_demo_projects {
+  description: "An explore enviornment to check on ongoing demo projects"
+}
+
+
+explore: demo_dataset_metadata {
+  join: demo_dataset_tables_sql_statements {
+    relationship: one_to_one
+    sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_tables_sql_statements.schema_name}  ;;
+  }
+}
+
+explore: demo_dataset_table_statement {}
+
+explore: demo_dataset_tables{}

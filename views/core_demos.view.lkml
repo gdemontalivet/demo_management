@@ -1,6 +1,12 @@
 view: core_demos {
   sql_table_name: `looker-private-demo.demo_management.core_demos`;;
 
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    sql: concat(${development_instance},${lookml_project_name}) ;;
+  }
+
   dimension: demo_name {
     description: "The name of the demo, this should correspond with a single LookML project"
     type: string
@@ -60,7 +66,7 @@ view: core_demos {
     description: "Relevant CIO Pitch slide deck"
     type: string
     sql: ${TABLE}.string_field_7 ;;
-    html: <a href="{{ value }}">{{ demo_name._value }}</a> ;;
+    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} CIO Pitch]</u></a> ;;
   }
 
   dimension: bigquery_project_name {
@@ -86,35 +92,33 @@ view: core_demos {
   }
 
   dimension: guru_demo_flow {
-    group_label: "Guru Card Links"
     description: "Link to the guru card with details on using this demo"
     type: string
     sql: ${TABLE}.string_field_10 ;;
-    html: <a href="{{ value }}">{{ demo_name._value }} Guru Card</a> ;;
+    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Guru Card]</u></a> ;;
   }
 
   dimension: guru_datset {
-    group_label: "Guru Card Links"
+    view_label: "BigQuery Dataset"
     description: "Link to the guru card with the details on the dataset"
     type: string
     sql: ${TABLE}.string_field_11 ;;
-    html: <a href="{{ value }}">{{ demo_name._value }} Dataset Guru Card</a> ;;
+    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Dataset Guru Card]</u></a> ;;
   }
 
   dimension: go_demo_flow {
-    group_label: "Go Links"
     description: "Go link to details on using this demo"
     type: string
     sql: ${TABLE}.string_field_12 ;;
-    html: <a href="{{ value }}">{{ demo_name._value }} Go Link</a> ;;
+    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Go Link]</u></a> ;;
   }
 
   dimension: go_datset {
-    group_label: "Go Links"
+    view_label: "BigQuery Dataset"
     description: "Go link details on this dataset"
     type: string
     sql: ${TABLE}.string_field_13 ;;
-    html: <a href="{{ value }}">{{ demo_name._value }} Dataset Go Link</a> ;;
+    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Dataset Go Link]</u></a>;;
   }
 
   dimension: development_git {
@@ -177,8 +181,14 @@ view: core_demos {
 view: demo_dataset {
   view_label: "BigQuery Dataset"
 
+  dimension: availability {
+    type: string
+    description: "Is this dataset available to be queried by anyone?"
+    sql: case when ${core_demos.bigquery_project_name} = 'looker-private-demo' then 'Publicly availabile for anyone with BQ'
+            else 'Restricted to internal use' end;;
+  }
+
   dimension: bigquery_dataset_name {
-    hidden: yes
     description: "The dataset (e.g. schema) that the data for this demo lives in"
     type: string
     #need to convert to a string
