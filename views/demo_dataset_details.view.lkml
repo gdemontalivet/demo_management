@@ -4,6 +4,7 @@ datagroup: dataset_trigger {
 
 
 view: demo_dataset_metadata {
+  view_label: "Schema"
   derived_table: {
     datagroup_trigger: dataset_trigger
     sql:SELECT
@@ -18,7 +19,7 @@ view: demo_dataset_metadata {
           INFORMATION_SCHEMA.SCHEMATA_OPTIONS
           where option_name = 'description') as so
           on s.schema_name = so.schema_name
-          where s.schema_name not like '%staging%';;
+          where s.schema_name not like '%staging%' and s.schema_name not like '%scratch%';;
   }
 
   dimension: primary_key {
@@ -44,8 +45,9 @@ view: demo_dataset_metadata {
   }
 
   dimension: sql_string {
-    sql:format("(SELECT ARRAY_TO_STRING(array_agg(TO_JSON_STRING(struct(table_name, column_name, data_type, is_partitioning_column))),'---') as table_metadata FROM %s.INFORMATION_SCHEMA.COLUMNS)",
-      ${schema_name});;
+    hidden: no
+    sql:format("(SELECT ARRAY_TO_STRING(array_agg(TO_JSON_STRING(struct('%s' as schema_name, table_name, column_name, data_type, is_partitioning_column))),'---') as table_metadata FROM %s.INFORMATION_SCHEMA.COLUMNS)",
+      ${schema_name}, ${schema_name});;
   }
 }
 
@@ -59,17 +61,11 @@ view: demo_dataset_tables_sql_statements {
   }
 
   dimension: schema_name {}
-
   dimension: sql_string {}
-
-  measure: sql_string_aggregated{
-    sql: concat("select array_agg(table_metadata) from (",
-            array_to_string(array_agg(${sql_string}), ' UNION All '),')');;
-  }
 }
 
-
-view: demo_dataset_table_statement {
+view: demo_dataset_table {
+  view_label: "Columns"
   derived_table: {
     datagroup_trigger: dataset_trigger
     create_process: {
@@ -78,102 +74,40 @@ view: demo_dataset_table_statement {
             select concat("create or replace table demo_management.table_metadata as select array_agg(table_metadata) as json_blob from (",
             array_to_string(array_agg(sql_string), ' UNION All '),')')
             from ${demo_dataset_tables_sql_statements.SQL_TABLE_NAME});;
+      sql_step:
+            create or replace table ${SQL_TABLE_NAME} as (
+            select c as json
+              from
+            demo_management.table_metadata as m
+            left join unnest(json_blob) as j
+            left join unnest(split(j,'---')) as c) ;;
+      }
     }
-  }
+
+    dimension: schema_name {
+      hidden: yes
+      type: string
+      sql: trim(json_extract(${TABLE}.json,'$.schema_name'),'"');;
+    }
+
+    dimension: table_name {
+      view_label: "Tables"
+      type: string
+      sql: trim(json_extract(${TABLE}.json,'$.table_name'),'"');;
+    }
+
+    dimension: column_name {
+      type: string
+      sql: trim(json_extract(${TABLE}.json,'$.column_name'),'"');;
+    }
+
+    dimension: data_type {
+      type: string
+      sql: trim(json_extract(${TABLE}.json,'$.data_type'),'"');;
+    }
+
+    dimension: is_partitioning_column {
+      type: string
+      sql: trim(json_extract(${TABLE}.json,'$.is_partitioning_column'),'"');;
+    }
 }
-
-
-
-
-view: demo_dataset_tables {
-  derived_table: {
-    sql: select split(jsob_blob,'---') from unnest(demo_management.table_metadata.jsob_blob) as json_blob;;
-    datagroup_trigger: dataset_trigger
-  }
-
-  dimension: json_blob {
-    type: string
-    hidden: yes
-    sql: ${TABLE}.json_blob ;;
-  }
-
-  dimension: table_name {
-    type: string
-    sql: ${json_blob}.table_name ;;
-
-  }
-  dimension: column_name{
-
-  }
-  dimension: data_type{
-
-  }
-  dimension: is_partitioning_column{
-
-  }
-}
-
-
-# view: demo_dataset_tables {
-#   derived_table: {
-#     sql:
-#       DECLARE datasets ARRAY<STRUCT<schema_name STRING>>;
-#       DECLARE x INT64 DEFAULT 0;
-#       DECLARE length INT64 DEFAULT 0;
-#       DECLARE sql_string STRING DEFAULT '';
-#       DECLARE sql_string_array array<string> default [""];
-#
-#       SET datasets = (
-#         WITH all_datasets AS (
-#          SELECT
-#           s.schema_name
-#           FROM
-#           INFORMATION_SCHEMA.SCHEMATA as s
-#           where s.schema_name not like '%staging%'
-#         )
-#         SELECT ARRAY_AGG(struct(schema_name as schmea_name)) AS datasets
-#         FROM all_datasets
-#       );
-#
-#       set length = (
-#         select array_length(datasets)
-#       );
-#
-#     LOOP
-#       IF x <= length-1 THEN
-#         if x=0 then
-#           set sql_string_array = [format("(SELECT array_agg(struct(table_name, column_name, data_type, is_partitioning_column)) FROM %s.INFORMATION_SCHEMA.COLUMNS)", datasets[offset(x)].schema_name)];
-#         else
-#           set sql_string = format("UNION ALL (SELECT array_agg(struct(table_name, column_name, data_type, is_partitioning_column)) FROM %s.INFORMATION_SCHEMA.COLUMNS)", datasets[offset(x)].schema_name);
-#           set sql_string_array = array_concat(sql_string_array, [sql_string]);
-#         end if;
-#         SET x = x + 1;
-#       ELSE
-#         LEAVE;
-#       END IF;
-#     END LOOP;
-#
-#     EXECUTE IMMEDIATE (select
-#     ARRAY_TO_STRING(sql_string_array, " "));
-#     ;;
-#   }
-#
-#   dimension: table_name {
-#     sql: ${TABLE}.table_name ;;
-#   }
-#
-#   dimension: column_name {
-#     sql: ${TABLE}.column_name ;;
-#   }
-#
-#   dimension: data_type {
-#     sql: ${TABLE}.data_type ;;
-#   }
-#
-#   dimension: is_partitioning_column {
-#     sql: ${TABLE}.is_partitioning_column ;;
-#   }
-#
-#
-#
-# }

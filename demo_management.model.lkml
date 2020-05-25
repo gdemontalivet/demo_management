@@ -34,12 +34,8 @@ explore: current_demo_projects {
 
 
 explore: demo_dataset_metadata {
-  join: demo_dataset_tables_sql_statements {
-    relationship: one_to_one
-    sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_tables_sql_statements.schema_name}  ;;
+  join: demo_dataset_table {
+    relationship: one_to_many
+    sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_table.schema_name}  ;;
   }
 }
-
-explore: demo_dataset_table_statement {}
-
-explore: demo_dataset_tables{}
