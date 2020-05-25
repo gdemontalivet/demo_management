@@ -34,8 +34,18 @@ explore: current_demo_projects {
 
 
 explore: demo_dataset_metadata {
-  join: demo_dataset_table {
+  join: demo_dataset_table_sizes {
     relationship: one_to_many
-    sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_table.schema_name}  ;;
+    sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_table_sizes.schema_name};;
+  }
+  join: demo_dataset_columns {
+    relationship: one_to_many
+    sql_on: ${demo_dataset_table_sizes.schema_name} = ${demo_dataset_columns.schema_name}
+    and ${demo_dataset_table_sizes.table_name} = ${demo_dataset_columns.table_name};;
+  }
+  join: demo_dataset_tables {
+    relationship: many_to_one
+    sql_on: ${demo_dataset_tables.schema_name} = ${demo_dataset_table_sizes.schema_name}
+    and ${demo_dataset_tables.table_name} = ${demo_dataset_table_sizes.table_name};;
   }
 }
