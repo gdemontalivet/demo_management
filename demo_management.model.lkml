@@ -9,6 +9,7 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 
 
 explore: core_demos {
+  hidden: yes
   view_label: "Demonstration Information"
   description: "An explore envionrment to find details on available demo content"
   join: demo_dataset {
@@ -29,11 +30,13 @@ explore: core_demos {
 }
 
 explore: current_demo_projects {
+  hidden: yes
   description: "An explore enviornment to check on ongoing demo projects"
 }
 
 
 explore: demo_dataset_metadata {
+  hidden: yes
   join: demo_dataset_table_sizes {
     relationship: one_to_many
     sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_table_sizes.schema_name};;
