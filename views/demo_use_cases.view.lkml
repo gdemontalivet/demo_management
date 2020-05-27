@@ -119,6 +119,18 @@ view: demo_use_cases {
     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Googledemo Board]</u></a>;;
   }
 
+  dimension: pendo_guide {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.string_field_14 ;;
+  }
+
+  dimension: dashboard_start_slug {
+    group_label: "Links to Live Demo"
+    type: string
+    sql: ${TABLE}.string_field_15 ;;
+  }
+
   measure: count {
     label: "Number of Use Cases"
     type: count

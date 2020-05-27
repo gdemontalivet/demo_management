@@ -165,10 +165,10 @@ view: core_demos {
     }
   }
 
-#   dimension: string_field_18 {
-#     type: string
-#     sql: ${TABLE}.string_field_18 ;;
-#   }
+  # dimension: string_field_18 {
+  #   type: string
+  #   sql: ${TABLE}.string_field_18 ;;
+  # }
 
 
   measure: count {
