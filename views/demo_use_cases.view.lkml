@@ -95,11 +95,18 @@ view: demo_use_cases {
     sql: concat('https://demo.looker.com/boards/',${TABLE}.string_field_10) ;;
   }
 
+  dimension: trial_board_id {
+    view_label: "Links to Live Demo"
+    description: "A link to the board on trial.looker.com"
+    type: string
+    sql: ${TABLE}.string_field_11 ;;
+  }
+
   dimension: trial_board {
     view_label: "Links to Live Demo"
     description: "A link to the board on trial.looker.com"
     type: string
-    sql: concat('https://trial.looker.com/boards/',${TABLE}.string_field_11) ;;
+    sql: concat('https://trial.looker.com/boards/',${trial_board_id}) ;;
     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Trial.looker Board]</u></a>;;
   }
 
