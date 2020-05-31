@@ -28,6 +28,13 @@ explore: core_demos {
     sql_on: ${demo_use_cases.demo_name} = ${demo_dashboards.demo_name} and
     ${demo_use_cases.use_case_name} = ${demo_dashboards.use_case_name} ;;
   }
+  join: start_dashboard {
+    from: demo_dashboards
+    fields: [dashboard_name]
+    view_label: "Use Case Information"
+    relationship: one_to_one
+    sql_on: ${demo_use_cases.dashboard_start_slug} = ${start_dashboard.dashboard_slug};;
+  }
 }
 
 explore: current_demo_projects {
