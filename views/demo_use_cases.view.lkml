@@ -53,6 +53,14 @@ view: demo_use_cases {
     html: <a style="color: blue" href="{{ value }}"><u>[{{ use_case_name._value }} Explore Packet]</u></a>;;
   }
 
+  dimension: explore_packet_embed_url {
+    group_label: "Links to Other Resources"
+    label: "Explore Packet Embed URL"
+    type: string
+    sql: case when ${TABLE}.string_field_5 is not null then 'https://docs.google.com/document/d/e/2PACX-1vRQ45rPpvA4Oudid68SzISQ7tjTvMDg6HsaVcKQSCVPdmjcSNdXsgKF68FEdp8EpnuxLg7MgwemMX2t/pub?embedded=true'
+    else null end;;
+  }
+
   dimension: explore_start {
     group_label: "Links to Other Resources"
     description: "Link to where the explore packet begins"
@@ -66,6 +74,13 @@ view: demo_use_cases {
     type: string
     sql: ${TABLE}.string_field_7 ;;
     html: <a style="color: blue" href="{{ value }}"><u>[{{ use_case_name._value }} Recorded Demo]</u></a>;;
+  }
+
+  dimension: embed_demo_url {
+    group_label: "Links to Other Resources"
+    label: "Recorded Demo Embed URL"
+    type: string
+    sql: REPLACE(${TABLE}.string_field_7, 'watch?v=', '/embed/') ;;
   }
 
   dimension: customer_story {
@@ -96,8 +111,8 @@ view: demo_use_cases {
   }
 
   dimension: trial_board_id {
+    group_label: "Board IDs"
     view_label: "Links to Live Demo"
-    description: "A link to the board on trial.looker.com"
     type: string
     sql: ${TABLE}.string_field_11 ;;
   }
@@ -132,8 +147,7 @@ view: demo_use_cases {
     sql: ${TABLE}.string_field_14 ;;
   }
 
-  dimension: dashboard_start_slug {
-    group_label: "Links to Live Demo"
+  dimension: use_case_description {
     type: string
     sql: ${TABLE}.string_field_15 ;;
   }
