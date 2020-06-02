@@ -1,7 +1,4 @@
-access_grant: looker_employee {
-  user_attribute: is_looker
-  allowed_values: ["yes"]
-}
+
 
 view: demo_use_cases {
   sql_table_name: `looker-private-demo.demo_management.demo_use_cases` ;;

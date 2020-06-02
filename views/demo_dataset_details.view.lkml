@@ -122,6 +122,7 @@ view: demo_dataset_columns {
     }
 
     dimension: full_column_name {
+      primary_key: yes
       description: "Full path to the column"
       type: string
       sql: concat(${demo_dataset_table_sizes.full_table_name},'.',${column_name});;

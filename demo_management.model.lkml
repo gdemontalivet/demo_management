@@ -9,6 +9,11 @@ include: "/views/*.view.lkml"                # include all views in the views/ f
 
 persist_for: "24 hours"
 
+access_grant: looker_employee {
+  allowed_values: ["yes"]
+  user_attribute: is_looker
+}
+
 explore: core_demos {
   hidden: yes
   view_label: "Demonstration Information"
