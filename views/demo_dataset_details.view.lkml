@@ -76,7 +76,9 @@ view: demo_dataset_sql_statements {
     }
   }
 
-  dimension: schema_name {}
+  dimension: schema_name {
+    primary_key: yes
+  }
   dimension: column_sql_string {}
   dimension: table_sql_string {}
   dimension: table_size_sql_string {}
@@ -175,6 +177,12 @@ view: demo_dataset_tables {
     }
   }
 
+  dimension: primary_key {
+    hidden: yes
+    primary_key: yes
+    sql: concat(${schema_name},${table_name}) ;;
+  }
+
   dimension: schema_name {
     hidden: yes
     type: string
@@ -246,6 +254,7 @@ view: demo_dataset_table_sizes {
   }
 
   dimension: full_table_name {
+    primary_key: yes
     description: "Full path to the table"
     type: string
     sql: concat('`',${demo_dataset_metadata.catalog_name},'.',${schema_name},'.',${table_name},'`');;
