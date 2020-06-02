@@ -43,7 +43,7 @@ view: demo_dataset_metadata {
   }
 
   dimension: schema_description {
-    sql: ${TABLE}.description ;;
+    sql: trim(${TABLE}.description,'"') ;;
   }
 
   dimension: column_sql_string {
@@ -135,7 +135,7 @@ view: demo_dataset_columns {
 
     dimension: is_partitioning_column {
       type: yesno
-      sql: trim(json_extract(${TABLE}.json,'$.is_partitioning_column'),'"');;
+      sql: trim(json_extract(${TABLE}.json,'$.is_partitioning_column'),'"') = "YES";;
     }
 
     dimension: is_nested_field {
