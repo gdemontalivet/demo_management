@@ -33,6 +33,7 @@ view: demo_use_cases {
   }
 
   dimension: day_in_the_life {
+    required_access_grants: [looker_employee]
     group_label: "Links to Other Resources"
     description: "Day in the Life Slides"
     type: string
@@ -41,7 +42,6 @@ view: demo_use_cases {
   }
 
   dimension: explore_packet {
-    required_access_grants: [looker_employee]
     group_label: "Links to Other Resources"
     label: "Explore Q & A Packet"
     description: "A link to an Explore Q & A packet that corresponds with this use case, can be used for Business User training"
