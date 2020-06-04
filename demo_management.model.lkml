@@ -40,7 +40,6 @@ explore: current_demo_projects {
   description: "An explore enviornment to check on ongoing demo projects"
 }
 
-
 explore: demo_dataset_metadata {
   hidden: yes
   join: demo_dataset_table_sizes {
