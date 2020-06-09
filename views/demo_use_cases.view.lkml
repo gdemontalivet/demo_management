@@ -98,13 +98,13 @@ view: demo_use_cases {
   dimension: demo_board {
     hidden: yes
     type: string
-    sql: concat('https://demo.looker.com/boards/',${TABLE}.string_field_9) ;;
+    sql: concat('https://demo.looker.com/browse/boards/',${TABLE}.string_field_9) ;;
   }
 
   dimension: demoexpo_board {
     hidden: yes
     type: string
-    sql: concat('https://demo.looker.com/boards/',${TABLE}.string_field_10) ;;
+    sql: concat('https://demo.looker.com/browse/boards/',${TABLE}.string_field_10) ;;
   }
 
   dimension: trial_board_id {
@@ -118,7 +118,7 @@ view: demo_use_cases {
     view_label: "Links to Live Demo"
     description: "A link to the board on trial.looker.com"
     type: string
-    sql: concat('https://trial.looker.com/boards/',${trial_board_id}) ;;
+    sql: concat('https://trial.looker.com/browse/boards/',${trial_board_id}) ;;
     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Trial.looker Board]</u></a>;;
   }
 
@@ -126,7 +126,7 @@ view: demo_use_cases {
     description: "A link to the board on partnerdemo"
     view_label: "Links to Live Demo"
     type: string
-    sql: concat('https://partnerdemo.corp.looker.com/boards/',${TABLE}.string_field_12) ;;
+    sql: concat('https://partnerdemo.corp.looker.com/browse/boards/',${TABLE}.string_field_12) ;;
     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Partnerdemo Board]</u></a>;;
   }
 
@@ -134,7 +134,7 @@ view: demo_use_cases {
     description: "A link to the board on partnerdemo"
     view_label: "Links to Live Demo"
     type: string
-    sql: concat('https://googledemo.looker.com/boards/',${TABLE}.string_field_13) ;;
+    sql: concat('https://googledemo.looker.com/browse/boards/',${TABLE}.string_field_13) ;;
     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Googledemo Board]</u></a>;;
   }
 
