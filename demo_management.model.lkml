@@ -15,12 +15,18 @@ access_grant: looker_employee {
 }
 
 explore: core_demos {
+  fields: [ALL_FIELDS*, -demo_dataset_metadata.schema_name]
   hidden: yes
   view_label: "Demonstration Information"
   description: "An explore envionrment to find details on available demo content"
   join: demo_dataset {
     relationship: one_to_many
     sql: left join unnest(${core_demos.bigquery_dataset_name}) as demo_dataset;;
+  }
+  join: demo_dataset_metadata {
+    view_label: "BigQuery Dataset"
+    relationship: many_to_one
+    sql_on: ${demo_dataset_metadata.schema_name} =  ${demo_dataset.bigquery_dataset_name};;
   }
   join: demo_use_cases {
     view_label: "Use Case Information"

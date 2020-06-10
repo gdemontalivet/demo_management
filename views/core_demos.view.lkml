@@ -165,10 +165,11 @@ view: core_demos {
     }
   }
 
-  # dimension: string_field_18 {
-  #   type: string
-  #   sql: ${TABLE}.string_field_18 ;;
-  # }
+  dimension: has_pitch_deck {
+    hidden: yes
+    type: yesno
+    sql: ${cio_pitch} is not null OR ${ceo_pitch} is not null;;
+  }
 
 
   measure: count {
@@ -176,6 +177,14 @@ view: core_demos {
     type: count
     drill_fields: [demo_name,lookml_project_name,]
   }
+
+  measure: count_pitch_decks {
+    label: "Number of Pitch Decks"
+    type: count
+    filters: [has_pitch_deck: "yes"]
+    drill_fields: [demo_name,ceo_pitch,cio_pitch]
+  }
+
 }
 
 view: demo_dataset {

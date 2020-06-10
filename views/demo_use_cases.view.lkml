@@ -38,7 +38,8 @@ view: demo_use_cases {
     description: "Day in the Life Slides"
     type: string
     sql: ${TABLE}.string_field_4 ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ use_case_name._value }} Day in the Life]</u></a>;;
+     html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    {{ use_case_name._value }} Day in the Life </a></div>;;
   }
 
   dimension: explore_packet {
@@ -47,10 +48,12 @@ view: demo_use_cases {
     description: "A link to an Explore Q & A packet that corresponds with this use case, can be used for Business User training"
     type: string
     sql: ${TABLE}.string_field_5 ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ use_case_name._value }} Explore Packet]</u></a>;;
+     html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    {{ use_case_name._value }} Explore Packet </a></div>;;
   }
 
   dimension: explore_packet_embed_url {
+    hidden: yes
     group_label: "Links to Other Resources"
     label: "Explore Packet Embed URL"
     type: string
@@ -59,6 +62,7 @@ view: demo_use_cases {
   }
 
   dimension: explore_start {
+    hidden: yes
     group_label: "Links to Other Resources"
     description: "Link to where the explore packet begins"
     type: string
@@ -70,10 +74,12 @@ view: demo_use_cases {
     label: "Recorded Demo"
     type: string
     sql: ${TABLE}.string_field_7 ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ use_case_name._value }} Recorded Demo]</u></a>;;
+    html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    {{ use_case_name._value }} Recorded Demo </a></div>;;
   }
 
   dimension: embed_demo_url {
+    hidden: yes
     group_label: "Links to Other Resources"
     label: "Recorded Demo Embed URL"
     type: string
@@ -85,14 +91,16 @@ view: demo_use_cases {
     label: "Customer Story"
     type: string
     sql: ${TABLE}.string_field_8 ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ use_case_name._value }} Customer Stories]</u></a>;;
+    html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    {{ use_case_name._value }} Customer Stories </a></div>;;
   }
 
   dimension: internal_demo_board {
     view_label: "Links to Live Demo"
     description: "Link to either demo or demoexpo board"
     sql: coalesce(${demo_board},${demoexpo_board}) ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Internal Demo Board]</u></a>;;
+     html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    Go to {{ demo_name._value }} Internal Demo Board </a></div>;;
   }
 
   dimension: demo_board {
@@ -108,6 +116,7 @@ view: demo_use_cases {
   }
 
   dimension: trial_board_id {
+    hidden: yes
     group_label: "Board IDs"
     view_label: "Links to Live Demo"
     type: string
@@ -119,7 +128,9 @@ view: demo_use_cases {
     description: "A link to the board on trial.looker.com"
     type: string
     sql: concat('https://trial.looker.com/browse/boards/',${trial_board_id}) ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Trial.looker Board]</u></a>;;
+    #html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Trial.looker Board]</u></a>;;
+    html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+        Go to {{ demo_name._value }} Trial.looker Board </a></div>;;
   }
 
   dimension: partnerdemo_board {
@@ -127,7 +138,8 @@ view: demo_use_cases {
     view_label: "Links to Live Demo"
     type: string
     sql: concat('https://partnerdemo.corp.looker.com/browse/boards/',${TABLE}.string_field_12) ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Partnerdemo Board]</u></a>;;
+    html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    Go to {{ demo_name._value }} Partnerdemo Board </a></div>;;
   }
 
   dimension: googledemo_board {
@@ -135,7 +147,10 @@ view: demo_use_cases {
     view_label: "Links to Live Demo"
     type: string
     sql: concat('https://googledemo.looker.com/browse/boards/',${TABLE}.string_field_13) ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Googledemo Board]</u></a>;;
+#     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Googledemo Board]</u></a>;;
+     html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    Go to {{ demo_name._value }} Googledemo Board </a></div>;;
+
   }
 
   dimension: pendo_guide {
@@ -147,6 +162,32 @@ view: demo_use_cases {
   dimension: use_case_description {
     type: string
     sql: ${TABLE}.string_field_15 ;;
+  }
+
+  dimension: has_ditl {
+    hidden: yes
+    type: yesno
+    sql: ${day_in_the_life} is not null;;
+  }
+
+  dimension: has_explore_packet {
+    hidden: yes
+    type: yesno
+    sql: ${explore_packet} is not null;;
+  }
+
+  measure: count_ditl {
+    label: "Number of DITL Use Cases"
+    type: count
+    filters: [has_ditl: "yes"]
+    drill_fields: [vertical, use_case_name, day_in_the_life]
+  }
+
+  measure: count_explore_qa {
+    label: "Number of Explore Q&A Packets"
+    type: count
+    filters: [has_explore_packet: "yes"]
+    drill_fields: [vertical, use_case_name, explore_packet]
   }
 
   measure: count {
