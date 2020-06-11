@@ -28,6 +28,33 @@ explore: core_demos {
     relationship: many_to_one
     sql_on: ${demo_dataset_metadata.schema_name} =  ${demo_dataset.bigquery_dataset_name};;
   }
+  join: demo_dataset_table_sizes {
+    view_label: "BigQuery Tables"
+    relationship: one_to_many
+    sql_on: ${demo_dataset_metadata.schema_name} = ${demo_dataset_table_sizes.schema_name};;
+  }
+  join: demo_dataset_columns {
+    view_label: "BigQuery Columns"
+    relationship: one_to_many
+    sql_on: ${demo_dataset_table_sizes.schema_name} = ${demo_dataset_columns.schema_name}
+      and ${demo_dataset_table_sizes.table_name} = ${demo_dataset_columns.table_name};;
+  }
+  join: demo_dataset_tables {
+    view_label: "BigQuery Tables"
+    relationship: many_to_one
+    sql_on: ${demo_dataset_tables.schema_name} = ${demo_dataset_table_sizes.schema_name}
+      and ${demo_dataset_tables.table_name} = ${demo_dataset_table_sizes.table_name};;
+  }
+  join: schema_facts {
+    view_label: "BigQuery Dataset"
+    relationship: one_to_one
+    sql_on: ${schema_facts.bigquery_dataset_name} = ${demo_dataset_metadata.schema_name} ;;
+  }
+  join: table_facts {
+    view_label: "BigQuery Tables"
+    relationship: one_to_one
+    sql_on: ${table_facts.full_table_name} = ${demo_dataset_table_sizes.full_table_name} ;;
+  }
   join: demo_use_cases {
     view_label: "Use Case Information"
     relationship: one_to_many
@@ -47,6 +74,7 @@ explore: current_demo_projects {
 }
 
 explore: demo_dataset_metadata {
+  fields: [ALL_FIELDS*, -demo_dataset_metadata.dataset_detaillink]
   hidden: yes
   join: demo_dataset_table_sizes {
     relationship: one_to_many

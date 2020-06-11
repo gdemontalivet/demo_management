@@ -113,12 +113,13 @@ view: core_demos {
     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Go Link]</u></a> ;;
   }
 
-  dimension: go_datset {
+  dimension: go_dataset {
     view_label: "BigQuery Dataset"
-    description: "Go link details on this dataset"
+    description: "Go link details on how this dataset was created"
     type: string
     sql: ${TABLE}.string_field_13 ;;
-    html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Dataset Go Link]</u></a>;;
+    html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    Go to {{ demo_name._value }} Dataset Generation Info </a></div>;;
   }
 
   dimension: development_git {
@@ -197,10 +198,15 @@ view: demo_dataset {
             else 'Restricted to internal use' end;;
   }
 
+  dimension: link_to_console {
+    type: string
+    sql: concat("https://console.cloud.google.com/bigquery?project=",${core_demos.bigquery_project_name},
+              "&p=",${core_demos.bigquery_project_name},'&d=',${bigquery_dataset_name},'&page=dataset') ;;
+  }
+
   dimension: bigquery_dataset_name {
     description: "The dataset (e.g. schema) that the data for this demo lives in"
     type: string
-    #need to convert to a string
     sql: trim(${TABLE});;
     #this could be an automated way to give people temporary edit access for datasets?
     link: {
@@ -209,7 +215,7 @@ view: demo_dataset {
     }
     link: {
       label: "View in BQ Console"
-      url: "https://console.cloud.google.com/project={{ core_demos.bigquery_project_name._value }}&d={{ value }}"
+      url: "{{ link_to_console._value }}"
     }
   }
 }

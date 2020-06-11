@@ -63,6 +63,16 @@ view: demo_dataset_metadata {
     sql:format("(SELECT ARRAY_TO_STRING(array_agg(TO_JSON_STRING(struct('%s' as schema_name, table_id as table_name, DATE_FROM_UNIX_DATE(SAFE_CAST(CEIL(last_modified_time/60/60/24/1000) AS INT64)) as modified_date, row_count, TRUNC(size_bytes/1073741824,2) as size_gb))),'---') as table_size_metadata FROM %s.__TABLES__)",
       ${schema_name}, ${schema_name});;
   }
+
+  dimension: dataset_detaillink {
+    type: string
+    sql: concat('/dashboards-next/5971?Dataset+Name=',${demo_dataset.bigquery_dataset_name});;
+  }
+
+  measure: count {
+    label: "Number of Datasets"
+    type: count
+  }
 }
 
 view: demo_dataset_sql_statements {
@@ -111,7 +121,7 @@ view: demo_dataset_columns {
     }
 
     dimension: table_name {
-      view_label: " Table"
+      view_label: "BigQuery Tables"
       type: string
       sql: trim(json_extract(${TABLE}.json,'$.table_name'),'"');;
     }
@@ -254,11 +264,114 @@ view: demo_dataset_table_sizes {
     sql: cast(trim(json_extract(${TABLE}.json,'$.size_gb'),'"') as float64);;
   }
 
+  dimension: row_count_tier {
+    type: tier
+    sql: ${row_count} ;;
+    tiers: [1000,10000,100000,500000,10000000,500000000,1000000000]
+    style: integer
+  }
+
   dimension: full_table_name {
     primary_key: yes
     description: "Full path to the table"
     type: string
     sql: concat('`',${demo_dataset_metadata.catalog_name},'.',${schema_name},'.',${table_name},'`');;
+  }
+
+  measure: count {
+    label: "Number of Tables"
+    type: count
+  }
+
+}
+
+
+view: table_facts {
+  derived_table: {
+    explore_source: core_demos {
+      column: full_table_name { field: demo_dataset_table_sizes.full_table_name }
+      column: number_of_nested_fields { field: demo_dataset_columns.number_of_nested_fields }
+      column: number_of_partitioned_columns { field: demo_dataset_columns.number_of_partitioned_columns }
+      column: number_of_fields { field: demo_dataset_columns.number_of_fields }
+    }
+  }
+
+  dimension: full_table_name {
+    label: "BigQuery Tables Table Name"
+    hidden: yes
+    primary_key: yes
+  }
+
+  dimension: number_of_nested_fields {
+    label: "BigQuery Columns Number of Nested Fields"
+    type: number
+    hidden: yes
+  }
+
+  dimension: has_nested_fields {
+    type: yesno
+    sql: ${number_of_nested_fields} > 0 ;;
+  }
+
+  dimension: number_of_partitioned_columns {
+    hidden: yes
+    label: "BigQuery Columns Number of Partitioned Columns"
+    type: number
+  }
+
+  dimension: is_partitioned {
+    type: yesno
+    sql: ${number_of_partitioned_columns} > 0 ;;
+  }
+
+  dimension: number_of_fields {
+    label: "Number of Fields"
+    type: number
+  }
+}
+
+view: schema_facts {
+  derived_table: {
+    explore_source: core_demos {
+      column: number_of_nested_fields { field: demo_dataset_columns.number_of_nested_fields }
+      column: number_of_partitioned_columns { field: demo_dataset_columns.number_of_partitioned_columns }
+      column: bigquery_dataset_name { field: demo_dataset.bigquery_dataset_name }
+      column: count { field: demo_dataset_table_sizes.count }
+    }
+  }
+
+  dimension: number_of_nested_fields {
+    hidden: yes
+    label: "BigQuery Columns Number of Nested Fields"
+    type: number
+  }
+
+  dimension: number_of_partitioned_columns {
+    hidden: yes
+    label: "BigQuery Columns Number of Partitioned Columns"
+    type: number
+  }
+
+  dimension: bigquery_dataset_name {
+    primary_key: yes
+    hidden: yes
+    label: "BigQuery Dataset Bigquery Dataset Name"
+    description: "The dataset (e.g. schema) that the data for this demo lives in"
+  }
+
+  dimension: count_tables {
+    label: "Number of Tables"
+    type: number
+  }
+
+  dimension: has_nested_fields {
+    type: yesno
+    sql: ${number_of_nested_fields}>0 ;;
+  }
+
+  dimension: has_paritioned_tables {
+    type: yesno
+    sql: ${number_of_partitioned_columns}>0 ;;
   }
 
 }

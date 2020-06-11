@@ -176,6 +176,11 @@ view: demo_use_cases {
     sql: ${explore_packet} is not null;;
   }
 
+  dimension: usecase_detail_link {
+    type: string
+    sql: concat('/dashboards-next/5968?Use+Case+Name=',${use_case_name},'&Vertical=',${vertical});;
+  }
+
   measure: count_ditl {
     label: "Number of DITL Use Cases"
     type: count
