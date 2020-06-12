@@ -210,6 +210,17 @@ view: demo_use_cases {
         when ${TABLE}.DITL_Status is null then 'No one signed up'
         else ${TABLE}.DITL_Status end
          ;;
+    html:
+    <a href="#drillmenu" target="_self">
+    {% if value == 'Complete' %}
+    <p style="color: green">{{ linked_value }}</p>
+    {% elsif value contains 'In Progress' %}
+    <p style="color: blue;">{{ linked_value }}</p>
+    {% else %}
+    <p style="color: orange">{{ linked_value }}</p>
+    {% endif %}
+    </a>
+    ;;
     action: {
       label: "{% unless ditl_status._value contains 'Complete' or ditl_status._value contains 'In Progress' %} Change to In Progress {% endunless %}"
       url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
@@ -266,6 +277,17 @@ view: demo_use_cases {
           when ${TABLE}.Explore_Status is null then 'No one signed up'
           else ${TABLE}.Explore_Status end
            ;;
+    html:
+    <a href="#drillmenu" target="_self">
+    {% if value == 'Complete' %}
+    <p style="color: green">{{ linked_value }}</p>
+    {% elsif value contains 'In Progress' %}
+    <p style="color: blue;">{{ linked_value }}</p>
+    {% else %}
+    <p style="color: orange">{{ linked_value }}</p>
+    {% endif %}
+    </a>
+    ;;
     action: {
       label: "{% unless explore_packet_status._value contains 'Complete' or explore_packet_status._value contains 'In Progress' %} Change to In Progress {% endunless %}"
       url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
@@ -327,6 +349,17 @@ view: demo_use_cases {
           when ${TABLE}.Recorded_Demo_Status is null then 'No one signed up'
           else ${TABLE}.Recorded_Demo_Status end
            ;;
+    html:
+    <a href="#drillmenu" target="_self">
+    {% if value == 'Complete' %}
+    <p style="color: green">{{ linked_value }}</p>
+    {% elsif value contains 'In Progress' %}
+    <p style="color: blue;">{{ linked_value }}</p>
+    {% else %}
+    <p style="color: orange">{{ linked_value }}</p>
+    {% endif %}
+    </a>
+    ;;
     action: {
       label: "{% unless recorded_demo_status._value contains 'Complete' or recorded_demo_status._value contains 'In Progress' %} Change to In Progress {% endunless %}"
       url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
