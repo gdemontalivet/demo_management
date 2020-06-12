@@ -206,26 +206,173 @@ view: demo_use_cases {
 
   dimension: ditl_status {
     type: string
-    sql: case when ${has_ditl} = 'yes' then 'Complete'
-          when ${TABLE}.DITL_Status is null then 'No one signed up'
-          else ${TABLE}.DITL_Status end
-           ;;
+    sql: case when ${has_ditl} then 'Complete'
+        when ${TABLE}.DITL_Status is null then 'No one signed up'
+        else ${TABLE}.DITL_Status end
+         ;;
+    action: {
+      label: "{% unless ditl_status._value contains 'Complete' or ditl_status._value contains 'In Progress' %} Change to In Progress {% endunless %}"
+      url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
+      icon_url: "https://cdn.iconscout.com/icon/premium/png-512-thumb/in-progress-2-571393.png"
+      form_param: {
+        name: "ditl_owner"
+        label: "Owner"
+        required: yes
+        default: "{{ _user_attributes['email'] }}"
+      }
+      param: {
+        name: "vertical"
+        value: "{{ vertical._value }}"
+      }
+      param: {
+        name: "usecase"
+        value: "{{ use_case_name._value }}"
+      }
+      param: {
+        name: "ditl_status"
+        value: "In Progress"
+      }
+    }
+    action: {
+      label: "{% unless ditl_status._value contains 'Complete' %} Change to Complete {% endunless %}"
+      url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
+      icon_url: "https://cdn2.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2/128/check-circle-green-512.png"
+      form_param: {
+        name: "ditl_url"
+        label: "DITL Slides Link (shared with all googlers)"
+        required: yes
+        default: ""
+      }
+      param: {
+        name: "vertical"
+        value: "{{ vertical._value }}"
+      }
+      param: {
+        name: "usecase"
+        value: "{{ use_case_name._value }}"
+      }
+      param: {
+        name: "ditl_status"
+        value: "Complete"
+      }
+    }
   }
 
+
   dimension: explore_packet_status {
+    group_label: "Content Status"
     type: string
-    sql: case when ${has_explore_packet} = 'yes' then 'Complete'
+    sql: case when ${has_explore_packet} then 'Complete'
           when ${TABLE}.Explore_Status is null then 'No one signed up'
           else ${TABLE}.Explore_Status end
            ;;
+    action: {
+      label: "{% unless explore_packet_status._value contains 'Complete' or explore_packet_status._value contains 'In Progress' %} Change to In Progress {% endunless %}"
+      url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
+      icon_url: "https://cdn.iconscout.com/icon/premium/png-512-thumb/in-progress-2-571393.png"
+      form_param: {
+        name: "qa_packet_owner"
+        label: "Owner"
+        required: yes
+        default: "{{ _user_attributes['email'] }}"
+      }
+      param: {
+        name: "vertical"
+        value: "{{ vertical._value }}"
+      }
+      param: {
+        name: "usecase"
+        value: "{{ use_case_name._value }}"
+      }
+      param: {
+        name: "qa_packet_status"
+        value: "In Progress"
+      }
+    }
+    action: {
+      label: "{% unless explore_packet_status._value contains 'Complete' %} Change to Complete {% endunless %}"
+      url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
+      icon_url: "https://cdn2.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2/128/check-circle-green-512.png"
+      form_param: {
+        name: "qa_packet_url"
+        label: "Q&A Packet Link (shared with all googlers)"
+        required: yes
+        default: ""
+      }
+#       form_param: {
+#         name: "explore_start"
+#         label: "Explore for Q & A (e.g. thelook/order_items)"
+#         required: yes
+#         default: ""
+#       }
+      param: {
+        name: "vertical"
+        value: "{{ vertical._value }}"
+      }
+      param: {
+        name: "usecase"
+        value: "{{ use_case_name._value }}"
+      }
+      param: {
+        name: "qa_packet_status"
+        value: "Complete"
+      }
+    }
   }
 
   dimension: recorded_demo_status {
+    group_label: "Content Status"
     type: string
-    sql: case when ${has_recorded_demo} = 'yes' then 'Complete'
+    sql: case when ${has_recorded_demo} then 'Complete'
           when ${TABLE}.Recorded_Demo_Status is null then 'No one signed up'
           else ${TABLE}.Recorded_Demo_Status end
            ;;
+    action: {
+      label: "{% unless recorded_demo_status._value contains 'Complete' or recorded_demo_status._value contains 'In Progress' %} Change to In Progress {% endunless %}"
+      url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
+      icon_url: "https://cdn.iconscout.com/icon/premium/png-512-thumb/in-progress-2-571393.png"
+      form_param: {
+        name: "recorded_demo_owner"
+        label: "Owner"
+        required: yes
+        default: "{{ _user_attributes['email'] }}"
+      }
+      param: {
+        name: "vertical"
+        value: "{{ vertical._value }}"
+      }
+      param: {
+        name: "usecase"
+        value: "{{ use_case_name._value }}"
+      }
+      param: {
+        name: "recorded_demo_status"
+        value: "In Progress"
+      }
+    }
+    action: {
+      label: "{% unless recorded_demo_status._value contains 'Complete' %} Change to Complete {% endunless %}"
+      url: "https://hooks.zapier.com/hooks/catch/5505451/osqneig/"
+      icon_url: "https://cdn2.iconfinder.com/data/icons/social-messaging-ui-color-shapes-2/128/check-circle-green-512.png"
+      form_param: {
+        name: "recorded_demo_url"
+        label: "Link to Recorded Demo (on Youtube)"
+        required: yes
+        default: ""
+      }
+      param: {
+        name: "vertical"
+        value: "{{ vertical._value }}"
+      }
+      param: {
+        name: "usecase"
+        value: "{{ use_case_name._value }}"
+      }
+      param: {
+        name: "recorded_demo_status"
+        value: "Complete"
+      }
+    }
   }
 
   measure: count_ditl {
