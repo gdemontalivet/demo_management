@@ -103,7 +103,6 @@ view: demo_use_cases {
     Go to {{ demo_name._value }} Internal Demo Board </a></div>;;
   }
 
-
   dimension: demo_board {
     hidden: yes
     type: string
@@ -268,7 +267,6 @@ view: demo_use_cases {
       }
     }
   }
-
 
   dimension: explore_packet_status {
     group_label: "Content Status"
