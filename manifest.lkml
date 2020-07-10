@@ -1,4 +1,4 @@
-project_name: "demo_management"
+project_name: "trial_instance_management"
 
 # application: homepage_extenstion {
 #   label: "Homepage"
