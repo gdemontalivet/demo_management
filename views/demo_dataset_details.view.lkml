@@ -2,6 +2,10 @@ datagroup: dataset_trigger {
   sql_trigger: select count(*) from INFORMATION_SCHEMA.SCHEMATA ;;
 }
 
+explore: demo_dataset_sql_statements {
+  hidden: yes
+}
+
 
 view: demo_dataset_metadata {
   view_label: " Schema"

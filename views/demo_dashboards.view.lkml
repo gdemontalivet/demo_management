@@ -49,7 +49,7 @@ view: demo_dashboards {
   }
 
   dimension: development_dashboard_id {
-    hidden: yes
+    hidden: no
     description: "The dashoard ID on the development instance"
     type: number
     sql: ${TABLE}.Development_Dashboard_ID ;;
@@ -86,11 +86,11 @@ view: demo_dashboards {
   }
 
   dimension: sandbox {
+    hidden: yes
     label: "Sandbox Folder"
     group_label: "Destination Folder IDs (for gzr)"
     type: number
     sql: ${TABLE}.sandbox ;;
-    hidden: yes
   }
 
   dimension: trial {
@@ -102,6 +102,20 @@ view: demo_dashboards {
       label: "View Folder"
       url: "https://trial.looker.com/folders/{{ value }}"
     }
+  }
+
+  dimension: model {
+    label: "LookML Model"
+    type: string
+    sql: ${TABLE}.model ;;
+    description: "LookML model used for getting the LookML dashboard ID"
+  }
+
+  dimension: lookml_dashboard_id {
+    label: "LookML Dashboard ID"
+    description: "model::title - used for importing the dashboard into other instances"
+    type: string
+    sql: concat(${model},'::',regexp_replace(lower(${dashboard_name}), '[^a-zA-Z0-9]', '_')) ;;
   }
 
 
