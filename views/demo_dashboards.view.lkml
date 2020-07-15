@@ -4,14 +4,14 @@ view: demo_dashboards {
   dimension: primary_key {
     hidden: yes
     primary_key: yes
-    sql: concat(${development_host},${development_dashboard_id}) ;;
+    sql: concat(${development_host},${development_dashboard_id}, '::',regexp_replace(lower(${use_case_name}), '[^a-zA-Z0-9]', '_')) ;;
   }
 
   dimension: dashboard_name {
     type: string
     sql: ${TABLE}.Dashboard_Name ;;
     link: {
-      label: "View dashboard on interal instance (i.e. Demo or Demoexpo)"
+      label: "{% if googledemo._value > 0 %} View dashboard on development instance (i.e. Demo, Demoexpo, GoogleCloud) {% endif %}"
       url: "{{ development_host._value }}/dashboards/{{ dashboard_slug._value }}"
     }
     link: {
