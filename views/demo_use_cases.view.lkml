@@ -33,6 +33,7 @@ view: demo_use_cases {
   }
 
   dimension: day_in_the_life {
+    #### DO NOT EDIT - used in go page
     required_access_grants: [looker_employee]
     group_label: "Links to Other Resources"
     description: "Day in the Life Slides"
@@ -43,6 +44,7 @@ view: demo_use_cases {
   }
 
   dimension: explore_packet {
+     #### DO NOT EDIT - used in go page
     group_label: "Links to Other Resources"
     label: "Explore Q & A Packet"
     description: "A link to an Explore Q & A packet that corresponds with this use case, can be used for Business User training"
@@ -62,6 +64,7 @@ view: demo_use_cases {
   }
 
   dimension: explore_start {
+    #### DO NOT EDIT - used in homepage
     hidden: yes
     group_label: "Links to Other Resources"
     description: "Link to where the explore packet begins"
@@ -70,6 +73,7 @@ view: demo_use_cases {
   }
 
   dimension: recorded_demo {
+    #### DO NOT EDIT - used in go page
     group_label: "Links to Other Resources"
     label: "Recorded Demo"
     type: string
@@ -95,27 +99,39 @@ view: demo_use_cases {
     {{ use_case_name._value }} Customer Stories </a></div>;;
   }
 
-  dimension: internal_demo_board {
+  dimension: internal_demo_board_id {
+    #### DO NOT EDIT - used in scripts and homepage
+    hidden: yes
+    group_label: "Board IDs"
     view_label: "Links to Live Demo"
-    description: "Link to either demo or demoexpo board"
-    sql: coalesce(${demo_board},${demoexpo_board}) ;;
-     html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
-    Go to {{ demo_name._value }} Internal Demo Board </a></div>;;
+    type: string
+    #TO DO: need to update in schema eventually
+    sql: ${TABLE}.demoexpo ;;
   }
 
-  dimension: demo_board {
-    hidden: yes
-    type: string
-    sql: concat('https://demo.looker.com/browse/boards/',${TABLE}.demo) ;;
+  dimension: internal_demo_board {
+    #### DO NOT EDIT - used in go page
+    view_label: "Links to Live Demo"
+    description: "Link to either demo, demoexpo, or googlecloud board"
+    sql: concat(RTRIM(${core_demos.development_instance},'/'),'/browse/boards/',${internal_demo_board_id});;
+    html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
+    Go to {{ demo_name._value }} Development Board </a></div>;;
   }
 
-  dimension: demoexpo_board {
-    hidden: yes
-    type: string
-    sql: concat('https://demo.looker.com/browse/boards/',${TABLE}.demoexpo) ;;
-  }
+#   dimension: demo_board {
+#     hidden: yes
+#     type: string
+#     sql: concat('https://demo.looker.com/browse/boards/',${TABLE}.demo) ;;
+#   }
+#
+#   dimension: demoexpo_board {
+#     hidden: yes
+#     type: string
+#     sql: concat('https://demo.looker.com/browse/boards/',${TABLE}.demoexpo) ;;
+#   }
 
   dimension: trial_board_id {
+    #### DO NOT EDIT - used in scripts and homepage
     hidden: yes
     group_label: "Board IDs"
     view_label: "Links to Live Demo"
@@ -124,6 +140,7 @@ view: demo_use_cases {
   }
 
   dimension: googledemo_board_id {
+    #### DO NOT EDIT - used in scripts
     hidden: yes
     group_label: "Board IDs"
     view_label: "Links to Live Demo"
@@ -132,16 +149,17 @@ view: demo_use_cases {
   }
 
   dimension: partnerdemo_board_id {
+    #### DO NOT EDIT - used in scripts
     hidden: yes
     group_label: "Board IDs"
     view_label: "Links to Live Demo"
     type: string
-    sql: ${TABLE}.parterndemo ;;
+    sql: ${TABLE}.partnerdemo ;;
   }
 
   dimension: trial_board {
     view_label: "Links to Live Demo"
-    description: "A link to the board on trial.looker.com"
+    description: "A link to the board on trial.looker.com, and instance for prospects"
     type: string
     sql: concat('https://trial.looker.com/browse/boards/',${trial_board_id}) ;;
     #html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Trial.looker Board]</u></a>;;
@@ -150,7 +168,7 @@ view: demo_use_cases {
   }
 
   dimension: partnerdemo_board {
-    description: "A link to the board on partnerdemo"
+    description: "A link to the board on partnerdemo, an instance for partners to demo"
     view_label: "Links to Live Demo"
     type: string
     sql: concat('https://partnerdemo.corp.looker.com/browse/boards/',${TABLE}.partnerdemo) ;;
@@ -159,15 +177,54 @@ view: demo_use_cases {
   }
 
   dimension: googledemo_board {
-    description: "A link to the board on partnerdemo"
+    description: "A link to the board on googledemo_board, an instance for googlers to demo"
     view_label: "Links to Live Demo"
     type: string
     sql: concat('https://googledemo.looker.com/browse/boards/',${TABLE}.googledemo) ;;
 #     html: <a style="color: blue" href="{{ value }}"><u>[{{ demo_name._value }} Googledemo Board]</u></a>;;
      html: <div style="background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; width: 100%; text-align: center;"><a href="{{ value }}" target="_blank">
     Go to {{ demo_name._value }} Googledemo Board </a></div>;;
-
   }
+
+#   dimension: googledemo_board_link_text {
+#     hidden: yes
+#     type: string
+#     sql:  case when ${googledemo_board_id} is not null then concat('Go to ', ${demo_name}, ' Googledemo Board') else null end;;
+#   }
+#
+#   dimension: partnerdemo_board_link_text {
+#     hidden: yes
+#     type: string
+#     sql:  case when ${partnerdemo_board_id} is not null then concat('Go to ', ${demo_name}, ' Partnerdemo Board') else null end;;
+#   }
+#
+#   dimension: trial_board_link_text {
+#     hidden: yes
+#     type: string
+#     sql:  case when ${trial_board_id} is not null then concat('Go to ', ${demo_name}, ' Trial Board') else null end;;
+#   }
+#
+#   dimension: dev_board_link_text {
+#     hidden: yes
+#     type: string
+#     sql:  case when ${internal_demo_board_id} is not null then concat('Go to ', ${demo_name}, ' Development Board') else null end;;
+#   }
+#
+#
+#   dimension: board_buttons {
+#     view_label: "Links to Live Demo"
+#     sql: 1 ;;
+#     html: <div style="display: flex; flex-direction: row;height: 100%; width:100%"><div style="height:100%;width: 25%;background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; text-align: center;"><a href="{{ googledemo_board._value }}" target="_blank">
+#     {{ googledemo_board_link_text._value }}</a></div>
+#     <a style="height:100%;width: 25%;background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; text-align: center;" href="{{ partnerdemo_board._value }}" target="_blank">
+#     {{ partnerdemo_board_link_text._value }}</a>
+#     <div style="height:100%;width: 25%;background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px;  text-align: center;"><a href="{{ internal_demo_board._value }}" target="_blank">
+#     {{ trial_board_link_text._value }}</a></div>
+#     <div style="height:100%;width: 25%;background: #eaf1fe; border-radius: 2px; border: solid 1px #4285F4; color: #000000; display: inline-block; font-size: 12px; font-weight: bold; line-height: 1; padding: 3px 4px; text-align: center;"><a href="{{ trial_board._value }}" target="_blank">
+#     {{ dev_board_link_text._value }}</a></div>
+#     </div>;;
+#   }
+
 
   dimension: pendo_guide {
     hidden: yes
@@ -176,6 +233,7 @@ view: demo_use_cases {
   }
 
   dimension: use_case_description {
+    #### DO NOT EDIT - used in go page and scripts
     type: string
     sql: ${TABLE}.Use_Case_Description ;;
   }
@@ -200,10 +258,11 @@ view: demo_use_cases {
 
   dimension: usecase_detail_link {
     type: string
-    sql: concat('/dashboards-next/5968?Use+Case+Name=',${use_case_name},'&Vertical=',${vertical});;
+    sql: concat('/dashboards/172?Use+Case+Name=',${use_case_name},'&Vertical=',${vertical});;
   }
 
   dimension: ditl_status {
+    #### DO NOT EDIT - used in go page
     type: string
     sql: case when ${has_ditl} then 'Complete'
         when ${TABLE}.DITL_Status is null then 'No one signed up'
