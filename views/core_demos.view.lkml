@@ -26,6 +26,7 @@ view: core_demos {
 #   }
 
   dimension: lookml_project_name {
+    #### DO NOT EDIT - used in github script
     description: "The name / id of the lookml project for the demo - should be consistent accross all instances"
     type: string
     sql: ${TABLE}.string_field_3 ;;
@@ -46,6 +47,7 @@ view: core_demos {
   }
 
   dimension: development_instance {
+    #### DO NOT EDIT - used in github scripts
     description: "The instance where you can continue to develop on top of the demo (usually demo.looker.com or demoexpo.loooker.com, depending on the project there may be a PR required"
     type: string
     sql: ${TABLE}.string_field_5 ;;
@@ -133,38 +135,44 @@ view: core_demos {
     }
   }
 
-  dimension: googledemo_git {
-    description: "The git repository for this project on googledemo"
-    group_label: "Git Repositories"
+  dimension: github_link {
+    #### DO NOT EDIT - used on go page
     type: string
-    sql: ${TABLE}.string_field_15 ;;
-    link: {
-      label: "View in Github"
-      url: "https://github.com/{{ value }}"
-    }
+    sql: concat('https://github.com/',${development_git}) ;;
   }
 
-  dimension: partnerdemo_git {
-    description: "The git repository for this project on partnerdemo"
-    group_label: "Git Repositories"
-    type: string
-    sql: ${TABLE}.string_field_16 ;;
-    link: {
-      label: "View in Github"
-      url: "https://github.com/{{ value }}"
-    }
-  }
-
-  dimension: triallooker_git {
-    description: "The git repository for this project on trial.looker"
-    group_label: "Git Repositories"
-    type: string
-    sql: ${TABLE}.string_field_17 ;;
-    link: {
-      label: "View in Github"
-      url: "https://github.com/{{ value }}"
-    }
-  }
+#   dimension: googledemo_git {
+#     description: "The git repository for this project on googledemo"
+#     group_label: "Git Repositories"
+#     type: string
+#     sql: ${TABLE}.string_field_15 ;;
+#     link: {
+#       label: "View in Github"
+#       url: "https://github.com/{{ value }}"
+#     }
+#   }
+#
+#   dimension: partnerdemo_git {
+#     description: "The git repository for this project on partnerdemo"
+#     group_label: "Git Repositories"
+#     type: string
+#     sql: ${TABLE}.string_field_16 ;;
+#     link: {
+#       label: "View in Github"
+#       url: "https://github.com/{{ value }}"
+#     }
+#   }
+#
+#   dimension: triallooker_git {
+#     description: "The git repository for this project on trial.looker"
+#     group_label: "Git Repositories"
+#     type: string
+#     sql: ${TABLE}.string_field_17 ;;
+#     link: {
+#       label: "View in Github"
+#       url: "https://github.com/{{ value }}"
+#     }
+#   }
 
   dimension: has_pitch_deck {
     hidden: yes
