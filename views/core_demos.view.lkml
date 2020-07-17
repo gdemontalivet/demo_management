@@ -77,10 +77,10 @@ view: core_demos {
     type: string
     sql: ${TABLE}.string_field_8 ;;
     #this could be an automated way to give people temporary edit access for datasets?
-    link: {
-      label: "Request ability to create a new dataset in this project"
-      url: "https://placeholder.com"
-    }
+#     link: {
+#       label: "Request ability to create a new dataset in this project"
+#       url: "https://placeholder.com"
+#     }
     link: {
       label: "View in BQ Console"
       url: "https://console.cloud.google.com/project={{ value }}"
@@ -217,9 +217,13 @@ view: demo_dataset {
     type: string
     sql: trim(${TABLE});;
     #this could be an automated way to give people temporary edit access for datasets?
+#     link: {
+#       label: "Request ability to edit data in this project"
+#       url: "https://placeholder.com"
+#     }
     link: {
-      label: "Request ability to edit data in this project"
-      url: "https://placeholder.com"
+      label: "See details on dataset"
+      url: "{{ demo_dataset_metadata.dataset_detaillink._value }}"
     }
     link: {
       label: "View in BQ Console"

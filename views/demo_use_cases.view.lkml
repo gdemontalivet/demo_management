@@ -30,6 +30,10 @@ view: demo_use_cases {
     description: "The name of the use case, corresponds with one section on a board"
     type: string
     sql: ${TABLE}.Use_Case_Name ;;
+    link: {
+      label: "View Details"
+      url: "{{ usecase_detail_link._value }}"
+    }
   }
 
   dimension: day_in_the_life {

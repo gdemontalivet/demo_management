@@ -28,6 +28,7 @@ view: demo_dataset_metadata {
   }
 
   dimension: primary_key {
+    primary_key: yes
     hidden: yes
     sql: concat(${catalog_name},${schema_name}) ;;
   }
@@ -38,6 +39,7 @@ view: demo_dataset_metadata {
   }
 
   dimension: schema_name {
+    hidden: yes
     sql: ${TABLE}.schema_name ;;
   }
 
@@ -70,12 +72,13 @@ view: demo_dataset_metadata {
 
   dimension: dataset_detaillink {
     type: string
-    sql: concat('/dashboards-next/5971?Dataset+Name=',${demo_dataset.bigquery_dataset_name});;
+    sql: concat('/dashboards/174?Dataset+Name=',${demo_dataset.bigquery_dataset_name});;
   }
 
   measure: count {
     label: "Number of Datasets"
     type: count
+    drill_fields: [demo_dataset.bigquery_dataset_name, demo_dataset_table_sizes.count, demo_dataset_table_sizes.total_gb]
   }
 }
 
@@ -285,6 +288,17 @@ view: demo_dataset_table_sizes {
   measure: count {
     label: "Number of Tables"
     type: count
+    drill_fields: [table_name, total_gb, row_count]
+  }
+
+  measure: total_gb {
+    type: sum
+    sql: ${size_gb} ;;
+  }
+
+  measure: average_gb {
+    type: average
+    sql:  ${size_gb};;
   }
 
 }

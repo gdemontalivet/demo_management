@@ -15,15 +15,15 @@ view: demo_dashboards {
       url: "{{ development_host._value }}/dashboards/{{ dashboard_slug._value }}"
     }
     link: {
-      label: "View dashboard on trial.looker"
+      label: "{% if trial._value > 0 %} View dashboard on Trial {% endif %}"
       url: "https://trial.looker.com/dashboards/{{ dashboard_slug._value }}"
     }
     link: {
-      label: "View dashboard on googledemo"
+      label: "{% if trial._value > 0 %} View dashboard on Googledemo  {% endif %}"
       url: "https://googledemo.looker.com/{{ dashboard_slug._value }}"
     }
     link: {
-      label: "View dashboard on partnerdemo"
+      label: "{% if trial._value > 0 %} View dashboard on Partnerdemo {% endif %}"
       url: "https://partnerdemo.corp.looker.com/{{ dashboard_slug._value }}"
     }
   }
@@ -121,7 +121,8 @@ view: demo_dashboards {
 
   measure: count {
     label: "Number of Dashboards"
-    type: count
-    drill_fields: [use_case_name, demo_name, dashboard_name]
+    type: count_distinct
+    sql: ${dashboard_slug} ;;
+    drill_fields: [use_case_name, demo_name, dashboard_name, dashboard_slug]
   }
 }
