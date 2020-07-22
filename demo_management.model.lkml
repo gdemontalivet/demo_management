@@ -68,10 +68,6 @@ explore: core_demos {
   }
 }
 
-explore: current_demo_projects {
-  hidden: yes
-  description: "An explore enviornment to check on ongoing demo projects"
-}
 
 explore: demo_dataset_metadata {
   fields: [ALL_FIELDS*, -demo_dataset_metadata.dataset_detaillink]
