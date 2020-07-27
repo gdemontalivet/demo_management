@@ -115,7 +115,7 @@ view: demo_dashboards {
     label: "LookML Dashboard ID"
     description: "model::title - used for importing the dashboard into other instances"
     type: string
-    sql: concat(${model},'::',regexp_replace(lower(${dashboard_name}), '[^a-zA-Z0-9]', '_')) ;;
+    sql: concat(${model},'::',regexp_replace(REPLACE(lower(${dashboard_name}), '-', ''), '[^a-zA-Z0-9]', '_')) ;;
   }
 
 
