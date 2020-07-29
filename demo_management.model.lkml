@@ -57,6 +57,7 @@ explore: core_demos {
   }
   join: demo_use_cases {
     view_label: "Use Case Information"
+    type: full_outer
     relationship: one_to_many
     sql_on: ${demo_use_cases.demo_name} = ${core_demos.demo_name} ;;
   }
