@@ -15,7 +15,7 @@ application: homepage_extenstion {
     new_window: yes
     allow_forms: yes
     allow_same_origin: yes
-    core_api_methods: []
+    core_api_methods: ["run_look","get_all_homepages","get_homepage"]
 
   }
 }
