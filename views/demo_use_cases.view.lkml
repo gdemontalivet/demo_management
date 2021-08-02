@@ -26,6 +26,12 @@ view: demo_use_cases {
     sql: ${TABLE}.Use_Case_Section_ID ;;
   }
 
+  dimension: guide_link {
+    description: "Walkthrough link for DDU"
+    type: string
+    sql: ${TABLE}.Guide_Link ;;
+  }
+
   dimension: use_case_name {
     description: "The name of the use case, corresponds with one section on a board"
     type: string
