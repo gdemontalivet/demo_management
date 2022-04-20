@@ -27,7 +27,7 @@ view: demo_use_cases {
   }
 
   dimension: guide_link {
-    description: "Walkthrough link for DDU"
+    description: "Explore link for DDU"
     type: string
     sql: ${TABLE}.Guide_Link ;;
   }
