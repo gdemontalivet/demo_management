@@ -2,8 +2,8 @@ project_name: "trial_instance_management"
 
 application: homepage_extenstion {
   label: "Homepage"
-  url: "http://localhost:8080/bundle.js"
-  # file: "bundle.js"
+  # url: "http://localhost:8080/bundle.js"
+  file: "bundle.js"
   entitlements: {
     local_storage: yes
     navigation: yes
