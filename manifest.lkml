@@ -10,7 +10,7 @@ application: homepage_extenstion {
     new_window: yes
     use_embeds: yes
     use_iframes: yes
-    core_api_methods: ["run_look","all_lookml_models","all_primary_homepage_sections","versions", "me"]
+    core_api_methods: ["run_look","all_boards","all_lookml_models","all_primary_homepage_sections","versions", "me"]
     external_api_urls : ["https://datadriven.university", "http://localhost:8080","https://localhost:8080"]
     new_window_external_urls: ["https://chrome.google.com/webstore/detail/data-driven-university/ckfldhejolipdmhhmofaandhaimbcbdn", "https://datadriven.university"]
   }
