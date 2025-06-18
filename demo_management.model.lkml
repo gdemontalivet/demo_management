@@ -7,7 +7,7 @@ include: "/dashboards/*.dashboard.lookml"   # include a LookML dashboard called 
 # # Select the views that should be a part of this model,
 # # and define the joins that connect them together.
 
-persist_for: "24 hours"
+# persist_for: "24 hours"
 
 access_grant: looker_employee {
   allowed_values: ["yes"]

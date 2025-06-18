@@ -1,6 +1,6 @@
-datagroup: dataset_trigger {
-  sql_trigger: select count(*) from INFORMATION_SCHEMA.SCHEMATA ;;
-}
+# datagroup: dataset_trigger {
+#   sql_trigger: select count(*) from INFORMATION_SCHEMA.SCHEMATA ;;
+# }
 
 explore: demo_dataset_sql_statements {
   hidden: yes
@@ -10,7 +10,7 @@ explore: demo_dataset_sql_statements {
 view: demo_dataset_metadata {
   view_label: " Schema"
   derived_table: {
-    datagroup_trigger: dataset_trigger
+    # datagroup_trigger: dataset_trigger
     sql:SELECT
           s.catalog_name,
           s.schema_name,
@@ -104,7 +104,7 @@ view: demo_dataset_sql_statements {
 view: demo_dataset_columns {
   view_label: "Column"
   derived_table: {
-    datagroup_trigger: dataset_trigger
+    # datagroup_trigger: dataset_trigger
     create_process: {
       sql_step:
             EXECUTE IMMEDIATE (
@@ -178,7 +178,7 @@ view: demo_dataset_columns {
 view: demo_dataset_tables {
   view_label: " Table"
   derived_table: {
-    datagroup_trigger: dataset_trigger
+    # datagroup_trigger: dataset_trigger
     create_process: {
       sql_step:
             EXECUTE IMMEDIATE (
@@ -222,7 +222,7 @@ view: demo_dataset_tables {
 view: demo_dataset_table_sizes {
   view_label: " Table"
   derived_table: {
-    datagroup_trigger: dataset_trigger
+    # datagroup_trigger: dataset_trigger
     create_process: {
       sql_step:
             EXECUTE IMMEDIATE (
